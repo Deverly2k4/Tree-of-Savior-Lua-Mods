@@ -6,20 +6,21 @@ line.
 
 dofile("../addons/utility.lua"); --do not remove this one as it's a dependency for others.
 
---[[ADDONS]]
-dofile("../addons/betterquest/betterquest.lua");
-dofile("../addons/channelsurfer/channelsurfer.lua");
-dofile("../addons/contextmenuadditions/contextmenuadditions.lua");
-dofile("../addons/expcardcalculator/expcardcalculator.lua");
-dofile("../addons/expviewer/expviewer.lua");
-dofile("../addons/guildmates/guildmates.lua");
-dofile("../addons/hidemaxedattributes/hidemaxedattributes.lua");
-dofile("../addons/mapfogviewer/mapfogviewer.lua");
-dofile("../addons/monsterframes/monsterframes.lua");
-dofile("../addons/monstertracker/monstertracker.lua");
-dofile("../addons/showinvestedstatpoints/showinvestedstatpoints.lua");
-
 --do not touch below here
+
+-- http://stackoverflow.com/questions/5303174/how-to-get-list-of-directories-in-lua
+local addons = io.popen([[dir "../addons/" /b /ad]]):lines();
+for addon in addons do 
+	local addonloader = "../addons/" .. addon .. "/" .. addon .. ".lua";
+	dofile(addonloader);
+end
+
+--http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
+function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+
 local addonLoaderFrame = ui.GetFrame("addonloader");
 addonLoaderFrame:ShowWindow(0);
 _G["ADDON_LOADER"] = {};
